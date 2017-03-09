@@ -3,6 +3,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
+        dest: 'public/dist/built.js',
+      },
     },
 
     mochaTest: {
@@ -80,9 +87,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('upload', function(n) {
-    if (grunt.option('prod')) {
+    if (grunt.option('prod')) { //digital ocean
       // add your production server task here
-    } else {
+    } else { //local server
       grunt.task.run([ 'server-dev' ]);
     }
   });
