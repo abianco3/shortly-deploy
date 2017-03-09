@@ -28,15 +28,26 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      myTarget: {
+        files: {
+          'public/dist/built.min.js': ['public/dist/built.js']
+        }
+      }
     },
 
     eslint: {
       target: [
         // Add list of files to lint here
+        ['**/*.js']
       ]
     },
 
     cssmin: {
+      dist: {
+        files: {
+          'public/dist/style.min.css': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -72,7 +83,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+    grunt.task.run([ 'nodemon', 'watch']);
   });
 
   ////////////////////////////////////////////////////
@@ -83,12 +94,14 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('build', function(target) {
+    grunt.task.run(['concat', 'uglify', 'cssmin']);
+  });
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) { //digital ocean
       // add your production server task here
+      grunt.task.run(['eslint', 'mochaTest', 'build']);
     } else { //local server
       grunt.task.run([ 'server-dev' ]);
     }
@@ -96,6 +109,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    'upload'
   ]);
 
 
