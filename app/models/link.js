@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var db = require('../config');
+//var db = require('../config');
 var crypto = require('crypto');
 
 // var Link = db.Model.extend({
@@ -25,12 +25,13 @@ var linksSchema = mongoose.Schema({
   visits: Number,
 });
 
-linksSchema.methods.makeCode = function() {
+linksSchema.pre('save', function(next) {
   var shasum = crypto.createHash('sha1');
   shasum.update(this.url);
   this.code = shasum.digest('hex').slice(0, 5);
-};
+  next();
+});
 
-var Link = db.model('Link', linksSchema);
+var Link = mongoose.model('Link', linksSchema);
 
 module.exports = Link;
