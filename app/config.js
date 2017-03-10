@@ -10,26 +10,20 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/shortly');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // make links schema and model
-  var linksSchema = mongoose.Schema({
-    url: String,
-    visits: Number,
-    name: String
-  });
+// db.once('open', function() {
+//   // make links schema and model
+  
+// });
+// var linksSchema = mongoose.Schema({
+//   url: String,
+//   visits: Number,
+// });
 
-  linksSchema.methods.addName = function() {
-    this.name = 'me';
-    console.log(this);
-  };
 
-  var Link = mongoose.model('Link', linksSchema);
+// var Link = mongoose.model('Link', linksSchema);
 
-  var mylink = new Link({url: 'www.me.com', visits: 10000000});
-  mylink.addName();
-  // make user schema and model
+// make user schema and model
 
-});
 
 // db.knex.schema.hasTable('urls').then(function(exists) {
 //   if (!exists) {
